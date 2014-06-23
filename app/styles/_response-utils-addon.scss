@@ -1,0 +1,21 @@
+@mixin create-text-alignment($suffix) {
+	.text-left-#{$suffix} {text-align: left}
+	.text-center-#{$suffix} {text-align: center}
+	.text-right-#{$suffix} {text-align: right}
+}
+
+@media only screen and (min-width: $screen-xs) {
+	@include create-text-alignment(xs);
+}
+
+@media only screen and (min-width: $screen-sm) {
+	@include create-text-alignment(sm);
+}
+
+@media only screen and (min-width: $screen-md) {
+	@include create-text-alignment(md);
+}
+
+@media only screen and (min-width: $screen-lg) {
+	@include create-text-alignment(lg);
+}
