@@ -116,6 +116,23 @@ angular
 		},200);
 	})
 
-	.controller('ContactUsController', function($scope) {
+	.controller('ContactUsController', function($scope, $http) {
+		$scope = function(contact) {
+			$scope.successMessage = false;
+			$scope.warningMessage = false;
 
+			$scope.sending = true;
+			$http({
+				method: 'POST',
+				url: 'contact-us.php',
+				data: contact
+			}).success(function(success) {
+				if(success)
+					$scope.succesMessage = true;
+				else
+					$scope.warningMessage = true;
+			})['finally'](function() {
+				$scope.sending = false;
+			});
+		}
 	});

@@ -1,24 +1,44 @@
 <div class="row">
 	<div class="col-sm-6" style="margin-top: 5em">
 		<div class="row">
-			<form name="form" class="col-sm-10 col-sm-offset-1">
+			<form name="form" class="col-sm-10 col-sm-offset-1" novalidate>
+
+				<div class="alert alert-success" ng-show="successMessage">
+					<button type="button" class="close" ng-click="successMessage = false">&times;</button>
+					<strong>Message Sent</strong>
+				</div>
+
+				<div class="alert alert-warning" ng-show="warningMessage">
+					<button type="button" class="close" ng-click="warningMessage = false">&times;</button>
+					<strong>Warning: </strong> Sending Message Failed, Please Try Again.
+				</div>
+
 				<h2>Contact Us</h2>
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Name" required autofocus>
+				<div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$dirty}">
+					<input type="text" class="form-control" placeholder="Name" required autofocus
+						ng-model="contact.name" name="name">
+					<span class="help-block" ng-show="form.name.$invalid && form.name.$dirty">This field isrequired</span>
+				</div>
+				<div class="form-group" ng-class="{'has-error': form.email.$invalid && form.email.$dirty}">
+					<input type="email" class="form-control" placeholder="E-mail" required
+						ng-model="contact.email" name="email">
+					<span class="help-block" ng-show="form.email.$invalid && form.email.$dirty">This field is required</span>
 				</div>
 				<div class="form-group">
-					<input type="email" class="form-control" placeholder="E-mail" required>
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Contact Number" required>
+					<input type="text" class="form-control" placeholder="Contact Number"
+						ng-model="contact.contact" name="contact">
 				</div>
 
 				<div class="form-group">
-					<textarea class="form-control" placeholder="Message" style="height: 100px"></textarea>
+					<textarea class="form-control" placeholder="Message" style="height: 100px"
+						ng-model="contact.message" name="message"></textarea>
 				</div>
 
 				<div class="text-right">
-					<button type="submit" class="btn btn-success">Send</button>
+					<button type="submit" class="btn btn-success" ng-disabled="sending">
+						<span ng-if="sending">Sending...</span>
+						<span ng-if="!sending">Send</span>
+					</button>
 				</div>
 			</form>
 		</div>
