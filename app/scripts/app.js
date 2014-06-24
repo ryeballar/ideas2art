@@ -69,20 +69,21 @@ angular
 
 	})
 
-	.directive('uiViewSlider', function($rootScope) {
+	.directive('uiViewSlider', function($rootScope, $animate) {
 
 		var classes = {
-			welcome: 'ui-view-welcome',
-			whatWeDo: 'ui-view-what-we-do',
-			ourClients: 'ui-view-our-clients',
-			contactUs: 'ui-view-contact-us'
+			welcome: ['welcome-from', 'what-we-do-to'],
+			whatWeDo: ['what-we-do-from', 'our-clients-to'],
+			ourClients: ['our-clients-from', 'contact-us-to'],
+			contactUs: ['contact-us-from', 'welcome-to']
 		}
 
 		return function(scope, elem, attr) {
-			$rootScope.$on('$stateChangeSuccess', function(event, toState, fromState) {
-				var children = elem.children();
-				angular.element(children[0]).addClass(classes[toState.name]);
-			});
+			 $rootScope.$on('$stateChangeStart', function(event, toState, fromState) {
+			 	var uiView = angular.element(elem.children()[0]);
+			 	var cls = classes[toState.name];
+			 	$animate.addClass(uiView, cls.join(' '));
+			 });
 		};
 	})
 
@@ -90,12 +91,29 @@ angular
 
 	})
 
-	.controller('whatWeDoController', function($scope) {
-
+	.controller('whatWeDoController', function($scope, $timeout) {
+		$timeout(function() {
+			$scope.vendors = [{
+				header: 'Digital Marketing',
+				details: 'Bring your digital product, app or software exposure to the world through our proven marketing services.'
+			}, {
+				header: 'Native Android/IOS',
+				details: 'Breathtaking apps and mobile experiences, focused on user experience and performance'
+			}, {
+				header: 'Web Based Platforms',
+				details: 'Groundbreaking technology applied to the development of impactful sites, hostsites and web apps.'
+			}, {
+				header: 'Game Development',
+				details: 'Creative collaboration and development, using digital platforms to produce unique and engaging experiences.'
+			}];
+		}, 100);
 	})
 
-	.controller('OurClientsController', function($scope) {
-
+	.controller('OurClientsController', function($scope, $timeout) {
+		$timeout(function() {
+			$scope.partition = 3;
+			$scope.range = 9;
+		},200);
 	})
 
 	.controller('ContactUsController', function($scope) {

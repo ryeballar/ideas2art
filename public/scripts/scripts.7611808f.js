@@ -1,1 +1,0 @@
-angular.module("ideas2artApp",["ngAnimate","ngResource","ngTouch","ui.router"]).config(["$urlRouterProvider","$stateProvider","$locationProvider",function(a,b,c){c.html5Mode(!0)}]);
