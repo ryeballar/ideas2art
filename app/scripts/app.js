@@ -40,7 +40,7 @@ angular
 
 	.config(function($urlRouterProvider, $stateProvider, $locationProvider) {
 
-		$urlRouterProvider.otherwise('/weclome');
+		$urlRouterProvider.otherwise('/welcome');
 
 		$stateProvider
 			.state('welcome', {
@@ -117,7 +117,7 @@ angular
 	})
 
 	.controller('ContactUsController', function($scope, $http) {
-		$scope.send = function(contact) {
+		$scope.send = function(form, contact) {
 
 			if(form.$invalid)
 				return;
@@ -127,15 +127,22 @@ angular
 
 			$scope.sending = true;
 
-			$http({
-				method: 'POST',
-				url: 'contact-us.php',
-				data: contact
+			$http.post('contact-us.php', {
+				name: contact.name || '',
+				email: contact.email || '',
+				contact: contact.contact || '',
+				message: contact.message
 			}).success(function(success) {
-				if(success)
-					$scope.succesMessage = true;
-				else
+				if(success) {
+					$scope.successMessage = true;
+					angular.forEach(contact, function(value, index) {
+						contact[index] = '';
+					});
+					
+				} else
 					$scope.warningMessage = true;
+			}).error(function(response) {
+				$scope.warningMessage = true;
 			})['finally'](function() {
 				$scope.sending = false;
 			});
