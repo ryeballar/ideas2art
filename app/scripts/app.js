@@ -44,7 +44,7 @@ angular
 
 		$stateProvider
 			.state('welcome', {
-				url: '/weclome',
+				url: '/welcome',
 				templateUrl: 'views/welcome.html',
 				controller: 'WelcomeController'
 			})
@@ -117,11 +117,16 @@ angular
 	})
 
 	.controller('ContactUsController', function($scope, $http) {
-		$scope = function(contact) {
+		$scope.send = function(contact) {
+
+			if(form.$invalid)
+				return;
+
 			$scope.successMessage = false;
 			$scope.warningMessage = false;
 
 			$scope.sending = true;
+
 			$http({
 				method: 'POST',
 				url: 'contact-us.php',
